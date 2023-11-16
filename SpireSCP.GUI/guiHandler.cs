@@ -1,4 +1,5 @@
-﻿using Exiled.API.Features;
+using Exiled.API.Enums;
+using Exiled.API.Features;
 using MEC;
 using PlayerRoles;
 using System;
@@ -14,29 +15,31 @@ namespace SpireLabs.GUI
     {
         internal static bool killLoop = false;
         private static string joinLeave = string.Empty;
+        internal static string[] peenNutMSG = new string[60];
+
+        internal static void fillPeenNutMSG()
+        {
+            for(int i = 0; i < peenNutMSG.Length; i++)
+            {
+                peenNutMSG[i] = "\t";
+            }
+        }
+
         internal static IEnumerator<float> sendJoinLeave(Player p, char jl)
         {
             string usr = p.DisplayNickname;
-            yield return Timing.WaitForSeconds(3f);
-            while (joinLeave != string.Empty)
-            {
-                yield return Timing.WaitForSeconds(0.5f);
-            }
-            if (joinLeave == string.Empty)
-            {
                 if (jl == 'j')
                 {
-                    joinLeave = $"Welcome, {p.DisplayNickname}!";
+                    joinLeave = $"Hello, {usr}!";
                     yield return Timing.WaitForSeconds(3);
-                    joinLeave = string.Empty;
+                    if (joinLeave == $"Hello, {usr}!") joinLeave = string.Empty;
                 }
                 if (jl == 'l')
                 {
                     joinLeave = $"Goodbye, {usr}!";
                     yield return Timing.WaitForSeconds(3);
-                    joinLeave = string.Empty;
+                    if (joinLeave == $"Goodbye, {usr}!") joinLeave = string.Empty;
                 }
-            }
         }
         internal static IEnumerator<float> sendHint(Player p, string h, float t)
         {
@@ -44,16 +47,7 @@ namespace SpireLabs.GUI
             string localHint = h;
             yield return Timing.WaitForSeconds(t);
             if (p.CurrentHint.Content.Contains(localHint)) hint[p.Id] = string.Empty;
-            //while (hint[p.Id] != string.Empty)
-            //{
-            //    yield return Timing.WaitForSeconds(0.5f);
-            //}
-            //if (hint[p.Id] == string.Empty)
-            //{
-            //    hint[p.Id] = h;
-            //    yield return Timing.WaitForSeconds(t);
-            //    hint[p.Id] = string.Empty;
-            //}           
+            if (p.Role == RoleTypeId.Spectator) hint[p.Id] = string.Empty;
         }
 
         internal static string[] hint = new string[60];
@@ -180,7 +174,7 @@ namespace SpireLabs.GUI
                                         effects[i] = "<size=25><b><color=#c9af3a>Bodyshot Reduction</color></b></size><size=10>\n\t</size>";
                                         break;
                                     case "Hemorrhage":
-                                        effects[i] = "<size=25><b><color=red>Hemorrhage</color></b></size><size=10>\n\t</size>";
+                                        effects[i] = "<size=25><b><color=#ff0000>Hemorrhage</color></b></size><size=10>\n\t</size>";
                                         break;
                                     case "Disabled":
                                         effects[i] = "<size=25><b><color=#828282>Disabled</color></b></size><size=10>\n\t</size>";
@@ -194,6 +188,16 @@ namespace SpireLabs.GUI
                                     case "Scanned":
                                         effects[i] = "<size=25><b><color=#ffff00>Scanned</color></b></size><size=10>\n\t</size>";
                                         break;
+                                    case "Ghostly":
+                                        effects[i] = "<size=25><b><color=#f2f3f5>Ghostly</color></b></size><size=10>\n\t</size>";
+                                        break;
+                                    case "Strangled":
+                                        effects[i] = "<size=25><b><color=#687fad>Strangled</color></b></size><size=10>\n\t</size>";
+                                        break;
+                                    case "SilentWalk":
+                                        effects[i] = "<size=25><b><color=#a9a9a9>Silent Walk</color></b></size><size=10>\n\t</size>";
+                                        break; 
+
                                 }
                                 Log.Debug($"{p.DisplayNickname} has effect {effects[i]} as player id {i}");
                             }
@@ -206,15 +210,15 @@ namespace SpireLabs.GUI
                     Log.Debug("Completed Message");
                     if (hint[p.Id].Length > 70)
                     {
-                        p.ShowHint($"<size=15>{joinLeave}\t</size>\n{hint[p.Id]}\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n<align=left>\t\n{effects[7] ?? "\t"}\n{effects[6] ?? "\t"}\n{effects[5] ?? "\t"}\n{effects[4] ?? "\t"}\n{effects[3] ?? "\t"}\n{effects[2] ?? "\t"}\n{effects[1] ?? "\t"}\n{effects[0] ?? "\t"}</align><align=center>\n\t\n\t\n\t\n<b><align=center><size=15><b><color=#B300FF>S</color><color=#AE15FF>p</color><color=#AA2AFF>i</color><color=#A63FFF>r</color><color=#A255FF>e</color><color=#9D6AFF>L</color><color=#997FFF>a</color><color=#9594FF>b</color><color=#91AAFF>s</color> <color=#88D4FF>-</color> </b>Discord.gg/f8uEpZWcBv/</size>\n\t\n\t\n\t\n\t\n\t\n\t\n\t", 1.25f);
+                        p.ShowHint($"<size=15>{joinLeave}\t</size>\n{hint[p.Id]}\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n<align=left>\t\n{effects[7] ?? "\t"}\n{effects[6] ?? "\t"}\n{effects[5] ?? "\t"}\n{effects[4] ?? "\t"}\n{effects[3] ?? "\t"}\n{effects[2] ?? "\t"}\n{effects[1] ?? "\t"}\n{effects[0] ?? "\t"}</align><align=center>\n\t\n\t\n{peenNutMSG[p.Id]}\n<b><align=center><size=15><b><color=#B300FF>S</color><color=#AE15FF>p</color><color=#AA2AFF>i</color><color=#A63FFF>r</color><color=#A255FF>e</color><color=#9D6AFF>L</color><color=#997FFF>a</color><color=#9594FF>b</color><color=#91AAFF>s</color> <color=#88D4FF>-</color> </b>Discord.gg/f8uEpZWcBv/</size>\n\t\n\t\n\t\n\t\n\t\n\t\n\t", 1.25f);
                     }
                     else if (hint[p.Id].Length > 140)
                     {
-                        p.ShowHint($"<size=15>{joinLeave}\t</size>\n{hint[p.Id]}\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n<align=left>\t\n{effects[7] ?? "\t"}\n{effects[6] ?? "\t"}\n{effects[5] ?? "\t"}\n{effects[4] ?? "\t"}\n{effects[3] ?? "\t"}\n{effects[2] ?? "\t"}\n{effects[1] ?? "\t"}\n{effects[0] ?? "\t"}</align><align=center>\n\t\n\t\n\t\n<b><align=center><size=15><b><color=#B300FF>S</color><color=#AE15FF>p</color><color=#AA2AFF>i</color><color=#A63FFF>r</color><color=#A255FF>e</color><color=#9D6AFF>L</color><color=#997FFF>a</color><color=#9594FF>b</color><color=#91AAFF>s</color> <color=#88D4FF>-</color> </b>Discord.gg/f8uEpZWcBv/</size>\n\t\n\t\n\t\n\t\n\t\n\t\n\t", 1.25f);
+                        p.ShowHint($"<size=15>{joinLeave}\t</size>\n{hint[p.Id]}\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n<align=left>\t\n{effects[7] ?? "\t"}\n{effects[6] ?? "\t"}\n{effects[5] ?? "\t"}\n{effects[4] ?? "\t"}\n{effects[3] ?? "\t"}\n{effects[2] ?? "\t"}\n{effects[1] ?? "\t"}\n{effects[0] ?? "\t"}</align><align=center>\n\t\n\t\n{peenNutMSG[p.Id]}\n<b><align=center><size=15><b><color=#B300FF>S</color><color=#AE15FF>p</color><color=#AA2AFF>i</color><color=#A63FFF>r</color><color=#A255FF>e</color><color=#9D6AFF>L</color><color=#997FFF>a</color><color=#9594FF>b</color><color=#91AAFF>s</color> <color=#88D4FF>-</color> </b>Discord.gg/f8uEpZWcBv/</size>\n\t\n\t\n\t\n\t\n\t\n\t\n\t", 1.25f);
                     }
                     else
                     {
-                        p.ShowHint($"<size=15>{joinLeave}\t</size>\n{hint[p.Id]}\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n<align=left>\t\n{effects[7] ?? "\t"}\n{effects[6] ?? "\t"}\n{effects[5] ?? "\t"}\n{effects[4] ?? "\t"}\n{effects[3] ?? "\t"}\n{effects[2] ?? "\t"}\n{effects[1] ?? "\t"}\n{effects[0] ?? "\t"}</align><align=center>\n\t\n\t\n\t\n<b><align=center><size=15><b><color=#B300FF>S</color><color=#AE15FF>p</color><color=#AA2AFF>i</color><color=#A63FFF>r</color><color=#A255FF>e</color><color=#9D6AFF>L</color><color=#997FFF>a</color><color=#9594FF>b</color><color=#91AAFF>s</color> <color=#88D4FF>-</color> </b>Discord.gg/f8uEpZWcBv/</size>\n\t\n\t\n\t\n\t\n\t\n\t\n\t", 1.25f);
+                        p.ShowHint($"<size=15>{joinLeave}\t</size>\n{hint[p.Id]}\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n<align=left>\t\n{effects[7] ?? "\t"}\n{effects[6] ?? "\t"}\n{effects[5] ?? "\t"}\n{effects[4] ?? "\t"}\n{effects[3] ?? "\t"}\n{effects[2] ?? "\t"}\n{effects[1] ?? "\t"}\n{effects[0] ?? "\t"}</align><align=center>\n\t\n\t\n{peenNutMSG[p.Id]}\n<b><align=center><size=15><b><color=#B300FF>S</color><color=#AE15FF>p</color><color=#AA2AFF>i</color><color=#A63FFF>r</color><color=#A255FF>e</color><color=#9D6AFF>L</color><color=#997FFF>a</color><color=#9594FF>b</color><color=#91AAFF>s</color> <color=#88D4FF>-</color> </b>Discord.gg/f8uEpZWcBv/</size>\n\t\n\t\n\t\n\t\n\t\n\t\n\t", 1.25f);
                     }
                     Log.Debug("Shown Hint");
                 }
