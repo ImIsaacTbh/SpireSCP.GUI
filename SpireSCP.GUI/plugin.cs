@@ -22,7 +22,7 @@ namespace SpireSCP.GUI
 {
     public class Plugin : Plugin<config>
     {
-        public override string Name => "Spire Labs GUI";
+        public override string Name => "ObscureLabs GUI";
         public override string Author => "ImIsaacTbh";
         public override System.Version Version => new System.Version(1, 0, 0);
         public override System.Version RequiredExiledVersion => new System.Version(8, 0, 1);
