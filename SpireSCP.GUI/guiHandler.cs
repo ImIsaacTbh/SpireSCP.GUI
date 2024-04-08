@@ -208,7 +208,8 @@ namespace SpireLabs.GUI
                         }
                     }
                     Log.Debug("Completed Message");
-                    if (hint[p.Id].Length > 70)
+                    if (hint[p.Id].Count("\n"))
+                    else if (hint[p.Id].Length > 70)
                     {
                         p.ShowHint($"<size=15>{joinLeave}\t</size>\n{hint[p.Id]}\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n\t\n<align=left>\t\n{effects[7] ?? "\t"}\n{effects[6] ?? "\t"}\n{effects[5] ?? "\t"}\n{effects[4] ?? "\t"}\n{effects[3] ?? "\t"}\n{effects[2] ?? "\t"}\n{effects[1] ?? "\t"}\n{effects[0] ?? "\t"}</align><align=center>\n\t\n\t\n{peenNutMSG[p.Id]}\n<b><align=center><size=15><b><color=#3a5fcf>ObscureLabs</color> <color=#88D4FF>-</color> </b>Discord.gg/f8uEpZWcBv/</size>\n\t\n\t\n\t\n\t\n\t\n\t\n\t", 1.25f);
                     }
