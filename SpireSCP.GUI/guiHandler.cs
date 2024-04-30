@@ -14,7 +14,7 @@ namespace SpireLabs.GUI
     internal class guiHandler
     {
         internal static bool killLoop = false;
-        private static string joinLeave = string.Empty;
+        internal static string joinLeave = string.Empty;
         internal static string[] peenNutMSG = new string[60];
 
         internal static void fillPeenNutMSG()

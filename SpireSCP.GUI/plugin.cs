@@ -35,6 +35,7 @@ namespace SpireSCP.GUI
             Exiled.Events.Handlers.Server.RoundStarted += OnRoundStart;
             Exiled.Events.Handlers.Player.Hurt += playerShot;
             Exiled.Events.Handlers.Player.Spawning += spawning;
+            Exiled.Events.Handlers.Server.RestartingRound += restarting;
         }
 
         public override void OnDisabled()
@@ -46,7 +47,15 @@ namespace SpireSCP.GUI
             Exiled.Events.Handlers.Player.Hurt -= playerShot;
             Exiled.Events.Handlers.Player.Spawning -= spawning;
         }
-        
+
+        private void restarting()
+        {
+            guiHandler.peenNutMSG = new string[60];
+            guiHandler.killLoop = false;
+            guiHandler.joinLeave = string.Empty;
+            guiHandler.hint = new string[60];
+        }
+
         private void spawning(SpawningEventArgs ev)
         {
             guiHandler.peenNutMSG[ev.Player.Id] = "\t";
