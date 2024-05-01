@@ -33,7 +33,7 @@ namespace SpireLabs.GUI
         internal static bool killLoop = false;
         internal static string joinLeave = string.Empty;
         internal static string[] peenNutMSG = new string[60];
-        internal static string[] modifiers = new string[6];
+        internal static string[] modifiers = new string[7];
         internal static void fillPeenNutMSG()
         {
             for(int i = 0; i < peenNutMSG.Length; i++)
@@ -244,7 +244,7 @@ namespace SpireLabs.GUI
                 {
                     Log.Info($"Error: {e}");
                 }
-                Log.Info("Got past effects");
+                Log.Debug("Got past effects");
                 string s = "<align=center><size=32>";
                 #region lines
                 s += $"\t\n"; //0
@@ -278,22 +278,72 @@ namespace SpireLabs.GUI
                         s += $"{split[2]}\n"; //4
                     }
                 }
-                Log.Info("Got past hints");
+                Log.Debug("Got past hints");
                 s += $"\t\n"; //5
-                s += $"<align=right>\t</align>\n"; //6
-                s += $"<align=right>\t</align>\n"; //7
-                s += $"<align=right>\t</align>\n"; //8
-                s += $"<align=right>\t</align>\n"; //9
-                s += $"<align=right>\t</align>\n"; //10
-                s += $"<align=right>\t</align>\n"; //11
-                s += $"<align=right>\t</align>\n"; //12
+                if (modifiers[0] == null)
+                {
+                    s += $"<align=right>\t</align>\n"; //6
+                }
+                else
+                {
+                    s += $"<align=right>{modifiers[0]}</align>\n"; //6
+                }
+
+                if (modifiers[1] == null)
+                {
+                    s += $"<align=right>\t</align>\n"; //6
+                }
+                else
+                {
+                    s += $"<align=right>{modifiers[1]}</align>\n"; //6
+                }
+                if (modifiers[2] == null)
+                {
+                    s += $"<align=right>\t</align>\n"; //6
+                }
+                else
+                {
+                    s += $"<align=right>{modifiers[2]}</align>\n"; //6
+                }
+                if (modifiers[3] == null)
+                {
+                    s += $"<align=right>\t</align>\n"; //6
+                }
+                else
+                {
+                    s += $"<align=right>{modifiers[3]}</align>\n"; //6
+                }
+                if (modifiers[4] == null)
+                {
+                    s += $"<align=right>\t</align>\n"; //6
+                }
+                else
+                {
+                    s += $"<align=right>{modifiers[4]}</align>\n"; //6
+                }
+                if (modifiers[5] == null)
+                {
+                    s += $"<align=right>\t</align>\n"; //6
+                }
+                else
+                {
+                    s += $"<align=right>{modifiers[5]}</align>\n"; //6
+                }
+                if (modifiers[6] == null)
+                {
+                    s += $"<align=right>\t</align>\n"; //6
+                }
+                else
+                {
+                    s += $"<align=right>{modifiers[6]}</align>\n"; //6
+                }
                 s += $"\t\n"; //13
                 s += $"\t\n"; //14
                 s += $"\t\n"; //15
                 s += $"\t\n"; //16
                 s += $"\t\n"; //17
                 s += $"\t\n"; //18
-                Log.Info("Got to effects");
+                Log.Debug("Got to effects");
                 if (effects[0] == null || (int)effects[0].time <= 0)
                 {
                     s += $"<align=left>\t</align>\n"; //19
@@ -302,7 +352,7 @@ namespace SpireLabs.GUI
                 {
                     s += $"<align=left>{effects[0].name} - {(int)effects[0].time}s</align>\n"; //19
                 }
-                Log.Info("Did effect 1");
+                Log.Debug("Did effect 1");
                 if (effects[1] == null || (int)effects[1].time <= 0)
                 {
                     s += $"<align=left>\t</align>\n"; //20
@@ -311,7 +361,7 @@ namespace SpireLabs.GUI
                 {
                     s += $"<align=left>{effects[1].name} - {(int)effects[1].time}s</align>\n"; //20
                 }
-                Log.Info("Did effect 1");
+                Log.Debug("Did effect 1");
                 if (effects[2] == null || (int)effects[2].time <= 0)
                 {
                     s += $"<align=left>\t</align>\n"; //21
@@ -320,7 +370,7 @@ namespace SpireLabs.GUI
                 {
                     s += $"<align=left>{effects[2].name} - {(int)effects[2].time}s</align>\n"; //21
                 }
-                Log.Info("Did effect 2");
+                Log.Debug("Did effect 2");
                 if (effects[3] == null || (int)effects[3].time <= 0)
                 {
                     s += $"<align=left>\t</align>\n"; //22
@@ -329,7 +379,7 @@ namespace SpireLabs.GUI
                 {
                     s += $"<align=left>{effects[3].name} - {(int)effects[3].time}s</align>\n"; //22
                 }
-                Log.Info("Did effect 3");
+                Log.Debug("Did effect 3");
                 if (effects[4] == null || (int)effects[4].time <= 0)
                 {
                     s += $"<align=left>\t</align>\n"; //23
@@ -338,7 +388,7 @@ namespace SpireLabs.GUI
                 {
                     s += $"<align=left>{effects[4].name} - {(int)effects[4].time}s</align>\n"; //23
                 }
-                Log.Info("Did effect 4");
+                Log.Debug("Did effect 4");
                 if (effects[5] == null || (int)effects[5].time <= 0)
                 {
                     s += $"<align=left>\t</align>\n"; //24
@@ -347,7 +397,7 @@ namespace SpireLabs.GUI
                 {
                     s += $"<align=left>{effects[5].name} - {(int)effects[5].time}s</align>\n"; //24
                 }
-                Log.Info("Did effect 5");
+                Log.Debug("Did effect 5");
                 if (effects[6] == null || (int)effects[6].time <= 0)
                 {
                     s += $"<align=left>\t</align>\n"; //25
@@ -356,7 +406,7 @@ namespace SpireLabs.GUI
                 {
                     s += $"<align=left>{effects[6].name} - {(int)effects[6].time}s</align>\n"; //25
                 }
-                Log.Info("Did effects");
+                Log.Debug("Did effects");
                 s += $"\t\n"; //26
                 s += $"\t\n"; //27
                 s += $"\t\n"; //28
@@ -373,7 +423,7 @@ namespace SpireLabs.GUI
                 s += $"\t\n"; //38
                 #endregion
                 s += "</align></size>";
-                Log.Info("What the fuck");
+                Log.Debug("What the fuck");
                 yield return Timing.WaitForSeconds(1f);
                 
                     Log.Debug("Completed Message");
