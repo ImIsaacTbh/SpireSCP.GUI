@@ -864,7 +864,13 @@
             <summary>
             Status effects as enum.
             </summary>
-            <seealso cref="M:Exiled.API.Extensions.EffectTypeExtension.Type(Exiled.API.Enums.EffectType)"/>
+            <seealso cref="M:Exiled.API.Extensions.EffectTypeExtension.TryGetEffectType(CustomPlayerEffects.StatusEffectBase,Exiled.API.Enums.EffectType@)"/>
+            <seealso cref="M:Exiled.API.Extensions.EffectTypeExtension.TryGetType(Exiled.API.Enums.EffectType,System.Type@)"/>
+        </member>
+        <member name="F:Exiled.API.Enums.EffectType.None">
+            <summary>
+            This EffectType do not exist it's only use when not found or error.
+            </summary>
         </member>
         <member name="F:Exiled.API.Enums.EffectType.AmnesiaItems">
             <summary>
@@ -2005,7 +2011,7 @@
             <summary>
             SCP team. Same as <see cref="F:PlayerRoles.Team.SCPs"/>.
             Contains all SCP-related roles: <see cref="F:PlayerRoles.RoleTypeId.Scp049"/>, <see cref="F:PlayerRoles.RoleTypeId.Scp0492"/>, <see cref="F:PlayerRoles.RoleTypeId.Scp079"/>, <see cref="F:PlayerRoles.RoleTypeId.Scp096"/>,
-            <see cref="F:PlayerRoles.RoleTypeId.Scp106"/>, <see cref="F:PlayerRoles.RoleTypeId.Scp173"/>, and <see cref="F:PlayerRoles.RoleTypeId.Scp939"/>.
+            <see cref="F:PlayerRoles.RoleTypeId.Scp106"/>, <see cref="F:PlayerRoles.RoleTypeId.Scp173"/>, <see cref="F:PlayerRoles.RoleTypeId.Scp939"/>, and <see cref="F:PlayerRoles.RoleTypeId.Scp3114"/>.
             </summary>
         </member>
         <member name="F:Exiled.API.Enums.Side.Mtf">
@@ -2472,12 +2478,28 @@
             <param name="effect">The <see cref="T:Exiled.API.Enums.EffectType"/> enum.</param>
             <returns>The <see cref="T:System.Type"/>.</returns>
         </member>
+        <member name="M:Exiled.API.Extensions.EffectTypeExtension.TryGetType(Exiled.API.Enums.EffectType,System.Type@)">
+            <summary>
+            Gets an instance of <see cref="T:System.Type"/> points to an effect.
+            </summary>
+            <param name="effect">The <see cref="T:Exiled.API.Enums.EffectType"/> enum.</param>
+            <param name="type">The type found with the corresponding EffecType.</param>
+            <returns>Whether or not the effectType has been found.</returns>
+        </member>
         <member name="M:Exiled.API.Extensions.EffectTypeExtension.GetEffectType(CustomPlayerEffects.StatusEffectBase)">
             <summary>
             Gets the <see cref="T:Exiled.API.Enums.EffectType"/> of the specified <see cref="T:CustomPlayerEffects.StatusEffectBase"/>.
             </summary>
             <param name="statusEffectBase">The <see cref="T:CustomPlayerEffects.StatusEffectBase"/> enum.</param>
             <returns>The <see cref="T:Exiled.API.Enums.EffectType"/>.</returns>
+        </member>
+        <member name="M:Exiled.API.Extensions.EffectTypeExtension.TryGetEffectType(CustomPlayerEffects.StatusEffectBase,Exiled.API.Enums.EffectType@)">
+            <summary>
+            Gets the <see cref="T:Exiled.API.Enums.EffectType"/> of the specified <see cref="T:CustomPlayerEffects.StatusEffectBase"/>.
+            </summary>
+            <param name="statusEffectBase">The <see cref="T:CustomPlayerEffects.StatusEffectBase"/> enum.</param>
+            <param name="effect">The effect found.</param>
+            <returns>Whether or not the effect has been found.</returns>
         </member>
         <member name="M:Exiled.API.Extensions.EffectTypeExtension.IsHarmful(Exiled.API.Enums.EffectType)">
             <summary>
@@ -2600,6 +2622,13 @@
             </summary>
             <param name="type">The <see cref="T:ItemType"/>.</param>
             <returns>The <see cref="T:InventorySystem.Items.ItemBase"/>, or <see langword="null"/> if not found.</returns>
+        </member>
+        <member name="M:Exiled.API.Extensions.ItemExtensions.GetPickupBase(ItemType)">
+            <summary>
+            Given an <see cref="T:ItemType"/>, returns the matching <see cref="T:InventorySystem.Items.Pickups.ItemPickupBase"/>.
+            </summary>
+            <param name="type">The <see cref="T:ItemType"/>.</param>
+            <returns>The <see cref="T:InventorySystem.Items.Pickups.ItemPickupBase"/>, or <see langword="null"/> if not found.</returns>
         </member>
         <member name="M:Exiled.API.Extensions.ItemExtensions.GetItemBase``1(ItemType)">
             <summary>
@@ -2980,6 +3009,15 @@
             </summary>
             <param name="roleType">The <see cref="T:PlayerRoles.RoleTypeId"/>.</param>
             <param name="roleBase">The <see cref="T:PlayerRoles.PlayerRoleBase"/> to return.</param>
+            <returns>The <see cref="T:PlayerRoles.PlayerRoleBase"/>.</returns>
+        </member>
+        <member name="M:Exiled.API.Extensions.RoleExtensions.TryGetRoleBase``1(PlayerRoles.RoleTypeId,``0@)">
+            <summary>
+            Tries to get the base <see cref="T:PlayerRoles.PlayerRoleBase"/> of the given <see cref="T:PlayerRoles.RoleTypeId"/>.
+            </summary>
+            <param name="roleType">The <see cref="T:PlayerRoles.RoleTypeId"/>.</param>
+            <param name="roleBase">The <see cref="T:PlayerRoles.PlayerRoleBase"/> to return.</param>
+            <typeparam name="T">The type to cast the <see cref="T:PlayerRoles.PlayerRoleBase"/> to.</typeparam>
             <returns>The <see cref="T:PlayerRoles.PlayerRoleBase"/>.</returns>
         </member>
         <member name="M:Exiled.API.Extensions.RoleExtensions.GetLeadingTeam(PlayerRoles.Team)">
@@ -8310,6 +8348,13 @@
             </summary>
             <returns>A string containing Item-related data.</returns>
         </member>
+        <member name="M:Exiled.API.Features.Items.Item.ChangeItemOwner(Exiled.API.Features.Player,Exiled.API.Features.Player)">
+            <summary>
+            Changes the owner of the <see cref="T:Exiled.API.Features.Items.Item"/>.
+            </summary>
+            <param name="oldOwner">Old <see cref="T:Exiled.API.Features.Items.Item"/> owner.</param>
+            <param name="newOwner">New <see cref="T:Exiled.API.Features.Items.Item"/> owner.</param>
+        </member>
         <member name="M:Exiled.API.Features.Items.Item.ChangeOwner(Exiled.API.Features.Player,Exiled.API.Features.Player)">
             <summary>
             Change the owner of the <see cref="T:Exiled.API.Features.Items.Item"/>.
@@ -8721,6 +8766,22 @@
             Gets or sets a value indicating whether or not SCP-244 will spawn primed.
             </summary>
         </member>
+        <member name="P:Exiled.API.Features.Items.Scp244.Health">
+            <summary>
+            Gets or sets the Scp244's remaining health.
+            </summary>
+        </member>
+        <member name="P:Exiled.API.Features.Items.Scp244.ActivationDot">
+            <summary>
+            Gets or sets the activation angle, where 1 is the minimum and -1 is the maximum activation angle.
+            </summary>
+        </member>
+        <member name="P:Exiled.API.Features.Items.Scp244.MaxDiameter">
+            <summary>
+            Gets or sets the maximum diameter within which SCP-244's hypothermia effect is dealt.
+            </summary>
+            <remarks>This does not prevent visual effects.</remarks>
+        </member>
         <member name="M:Exiled.API.Features.Items.Scp244.CreatePickup(UnityEngine.Vector3,UnityEngine.Quaternion,System.Boolean)">
             <summary>
             Creates the <see cref="T:Exiled.API.Features.Pickups.Pickup"/> that based on this <see cref="T:Exiled.API.Features.Items.Item"/>.
@@ -8741,6 +8802,9 @@
             Returns the SCP-244 in a human readable format.
             </summary>
             <returns>A string containing SCP-244 related data.</returns>
+        </member>
+        <member name="M:Exiled.API.Features.Items.Scp244.ReadPickupInfo(Exiled.API.Features.Pickups.Pickup)">
+            <inheritdoc/>
         </member>
         <member name="T:Exiled.API.Features.Items.CandyAddStatus">
             <summary>
@@ -9342,8 +9406,8 @@
             Sends an <see cref="M:Exiled.API.Features.Log.Error(System.Object)"/> with the provided message if the condition is false and stops the execution.
             <example> For example:
             <code>
-                Player ply = Player.Get(2);
-                Log.Assert(ply is not null, "The player with the id 2 is null");
+            Player ply = Player.Get(2);
+            Log.Assert(ply is not null, "The player with the id 2 is null");
             </code>
             results in it logging an error if the player is null and not continuing.
             </example>
@@ -11013,6 +11077,12 @@
             Gets or sets the current size percent of the Scp244's Hypothermia.
             </summary>
         </member>
+        <member name="P:Exiled.API.Features.Pickups.Scp244Pickup.MaxDiameter">
+            <summary>
+            Gets or sets the maximum diameter within which SCP-244's hypothermia effect is dealt.
+            </summary>
+            <remarks>This does not prevent visual effects.</remarks>
+        </member>
         <member name="P:Exiled.API.Features.Pickups.Scp244Pickup.Health">
             <summary>
             Gets or sets the Scp244's remaining health.
@@ -11050,6 +11120,9 @@
             Returns the Scp244Pickup in a human readable format.
             </summary>
             <returns>A string containing Scp244Pickup related data.</returns>
+        </member>
+        <member name="M:Exiled.API.Features.Pickups.Scp244Pickup.ReadItemInfo(Exiled.API.Features.Items.Item)">
+            <inheritdoc/>
         </member>
         <member name="T:Exiled.API.Features.Pickups.Scp330Pickup">
             <summary>
@@ -11852,7 +11925,7 @@
             Gets a <see cref="T:System.Collections.Generic.IEnumerable`1"/> of <see cref="T:Exiled.API.Features.Player"/> filtered based on a predicate.
             </summary>
             <param name="predicate">The condition to satisfy.</param>
-            <returns>A <see cref="T:System.Collections.Generic.IEnumerable`1"/> of <see cref="T:Exiled.API.Features.Player"/> which contains elements that satify the condition.</returns>
+            <returns>A <see cref="T:System.Collections.Generic.IEnumerable`1"/> of <see cref="T:Exiled.API.Features.Player"/> which contains elements that satisfy the condition.</returns>
         </member>
         <member name="M:Exiled.API.Features.Player.Get(CommandSystem.ICommandSender)">
             <summary>
@@ -12033,6 +12106,24 @@
             <param name="collider">The <see cref="T:UnityEngine.Collider"/>.</param>
             <param name="player">The player found or <see langword="null"/> if not found.</param>
             <returns>A boolean indicating whether or not a player was found.</returns>
+        </member>
+        <member name="M:Exiled.API.Features.Player.GetProcessedData(System.ArraySegment{System.String},System.Int32,System.String[]@,System.Boolean)">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing all players processed based on the arguments specified.
+            </summary>
+            <param name="args">The array segment of strings representing the input arguments to be processed.</param>
+            <param name="startIndex">The starting index within the array segment.</param>
+            <param name="newargs">Contains the updated arguments after processing.</param>
+            <param name="keepEmptyEntries">Determines whether empty entries should be kept in the result.</param>
+            <returns>An <see cref="T:System.Collections.Generic.IEnumerable`1"/> representing the processed players.</returns>
+        </member>
+        <member name="M:Exiled.API.Features.Player.GetProcessedData(System.ArraySegment{System.String},System.Int32)">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing all players processed based on the arguments specified.
+            </summary>
+            <param name="args">The array segment of strings representing the input arguments to be processed.</param>
+            <param name="startIndex">The starting index within the array segment.</param>
+            <returns>An <see cref="T:System.Collections.Generic.IEnumerable`1"/> representing the processed players.</returns>
         </member>
         <member name="M:Exiled.API.Features.Player.AddReservedSlot(System.String)">
             <summary>
@@ -13010,7 +13101,7 @@
             <summary>
             Gets an instance of <see cref="T:CustomPlayerEffects.StatusEffectBase"/> by <see cref="T:Exiled.API.Enums.EffectType"/>.
             </summary>
-            <param name="type">The <see cref="T:Exiled.API.Enums.EffectType"/>.</param>
+            <param name="effectType">The <see cref="T:Exiled.API.Enums.EffectType"/>.</param>
             <returns>The <see cref="T:CustomPlayerEffects.StatusEffectBase"/>.</returns>
         </member>
         <member name="M:Exiled.API.Features.Player.TryGetEffect(Exiled.API.Enums.EffectType,CustomPlayerEffects.StatusEffectBase@)">
@@ -16285,7 +16376,7 @@
             <summary>
             Flickers the room's lights off for a duration.
             </summary>
-            <param name="duration">Duration in seconds.</param>
+            <param name="duration">Duration in seconds, or -1 for an indefinite duration.</param>
         </member>
         <member name="M:Exiled.API.Features.Room.LockDown(System.Single,Exiled.API.Enums.DoorLockType)">
             <summary>
@@ -16481,6 +16572,45 @@
             Start the round.
             </summary>
         </member>
+        <member name="T:Exiled.API.Features.Scp3114Ragdoll">
+            <summary>
+            A wrapper for SCP-3114 ragdolls.
+            </summary>
+        </member>
+        <member name="M:Exiled.API.Features.Scp3114Ragdoll.#ctor(PlayerRoles.PlayableScps.Scp3114.Scp3114Ragdoll)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Exiled.API.Features.Scp3114Ragdoll"/> class.
+            </summary>
+            <param name="ragdoll">The base ragdoll to wrap. <inheritdoc cref="P:Exiled.API.Features.Scp3114Ragdoll.Base"/></param>
+        </member>
+        <member name="P:Exiled.API.Features.Scp3114Ragdoll.Base">
+            <inheritdoc/>
+        </member>
+        <member name="P:Exiled.API.Features.Scp3114Ragdoll.DisguiseRole">
+            <summary>
+            Gets or sets the role that the corpse is disguised as.
+            </summary>
+        </member>
+        <member name="P:Exiled.API.Features.Scp3114Ragdoll.RevealDelay">
+            <summary>
+            Gets or sets the delay between when SCP-3114 can disguise this corpse.
+            </summary>
+        </member>
+        <member name="P:Exiled.API.Features.Scp3114Ragdoll.RevealDuration">
+            <summary>
+            Gets or sets the time required to reveal this corpse.
+            </summary>
+        </member>
+        <member name="P:Exiled.API.Features.Scp3114Ragdoll.RevealElapsed">
+            <summary>
+            Gets or sets the current time of revealing this corpse.
+            </summary>
+        </member>
+        <member name="P:Exiled.API.Features.Scp3114Ragdoll.IsPlayingAnimation">
+            <summary>
+            Gets or sets a value indicating whether or not this corpse will trigger animation.
+            </summary>
+        </member>
         <member name="T:Exiled.API.Features.Scp914">
             <summary>
             A set of tools to modify SCP-914's behaviour.
@@ -16521,6 +16651,11 @@
             Gets the position of SCP-914's output chamber.
             </summary>
         </member>
+        <member name="P:Exiled.API.Features.Scp914.MovingVector">
+            <summary>
+            Gets the position offset in which item is moving.
+            </summary>
+        </member>
         <member name="P:Exiled.API.Features.Scp914.IsWorking">
             <summary>
             Gets a value indicating whether SCP-914 is active and currently processing items.
@@ -16539,6 +16674,11 @@
         <member name="P:Exiled.API.Features.Scp914.OutputBooth">
             <summary>
              Gets the output booth <see cref="T:UnityEngine.Transform"/>.
+            </summary>
+        </member>
+        <member name="P:Exiled.API.Features.Scp914.Doors">
+            <summary>
+            Gets the list with <see cref="T:Exiled.API.Features.Doors.Door"/> which SCP-914 has.
             </summary>
         </member>
         <member name="M:Exiled.API.Features.Scp914.Scp914InputObject(System.Collections.Generic.IEnumerable{Exiled.API.Features.Player}@,System.Collections.Generic.IEnumerable{Exiled.API.Features.Pickups.Pickup}@)">
@@ -17125,6 +17265,16 @@
             Gets the <see cref="T:Exiled.API.Enums.AdminToyType"/>.
             </summary>
         </member>
+        <member name="P:Exiled.API.Features.Toys.AdminToy.Player">
+            <summary>
+            Gets or sets who spawn the Primitive AdminToy.
+            </summary>
+        </member>
+        <member name="P:Exiled.API.Features.Toys.AdminToy.Footprint">
+            <summary>
+            Gets or sets the Footprint of the player who spawned the AdminToy.
+            </summary>
+        </member>
         <member name="P:Exiled.API.Features.Toys.AdminToy.Position">
             <summary>
             Gets or sets the position of the toy.
@@ -17147,6 +17297,11 @@
             Higher values reflect smoother movements.
             <br /> - 60 is an ideal value.
             </para>
+            </summary>
+        </member>
+        <member name="P:Exiled.API.Features.Toys.AdminToy.IsStatic">
+            <summary>
+            Gets or sets a value indicating whether IsStatic.
             </summary>
         </member>
         <member name="M:Exiled.API.Features.Toys.AdminToy.Get(AdminToys.AdminToyBase)">
@@ -18150,6 +18305,18 @@
             Settings for primitives.
             </summary>
         </member>
+        <member name="M:Exiled.API.Structs.PrimitiveSettings.#ctor(UnityEngine.PrimitiveType,UnityEngine.Color,UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Vector3,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Exiled.API.Structs.PrimitiveSettings"/> struct.
+            </summary>
+            <param name="primitiveType">The type of the primitive.</param>
+            <param name="color">The color of the primitive.</param>
+            <param name="position">The position of the primitive.</param>
+            <param name="rotation">The rotation of the primitive.</param>
+            <param name="scale">The scale of the primitive.</param>
+            <param name="spawn">Whether or not the primitive should be spawned.</param>
+            <param name="isStatic">Whether or not the primitive should be static.</param>
+        </member>
         <member name="M:Exiled.API.Structs.PrimitiveSettings.#ctor(UnityEngine.PrimitiveType,UnityEngine.Color,UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Vector3,System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:Exiled.API.Structs.PrimitiveSettings"/> struct.
@@ -18184,6 +18351,11 @@
         <member name="P:Exiled.API.Structs.PrimitiveSettings.Scale">
             <summary>
             Gets the primitive scale.
+            </summary>
+        </member>
+        <member name="P:Exiled.API.Structs.PrimitiveSettings.IsStatic">
+            <summary>
+            Gets a value indicating whether or not the primitive should be spawned.
             </summary>
         </member>
         <member name="P:Exiled.API.Structs.PrimitiveSettings.Spawn">

@@ -29,6 +29,7 @@ namespace SpireSCP.GUI
 
         public override void OnEnabled()
         {
+            Exiled.Events.Handlers.Server.WaitingForPlayers += restarting;
             Exiled.Events.Handlers.Player.Joined += OnPlayerJoined;
             Exiled.Events.Handlers.Player.Verified += JoinMSG;
             Exiled.Events.Handlers.Player.Left += LeaveMSG;
@@ -85,6 +86,10 @@ namespace SpireSCP.GUI
         }
         private void OnRoundStart()
         {
+            guiHandler.peenNutMSG = new string[60];
+            guiHandler.killLoop = false;
+            guiHandler.joinLeave = string.Empty;
+            guiHandler.hint = new string[60];
             guiHandler.startHints();
             guiHandler.fillPeenNutMSG();
         }
